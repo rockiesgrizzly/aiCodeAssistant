@@ -43,16 +43,17 @@ public struct AICodeAssistant {
             
             do {
                 // Get stream model response
-                let stream = session.streamResponse(to: userInput)
+                let response = try await session.respond(to: userInput)
+                print(response, terminator: "")
                 
-                for try await partialResponse in stream {
-                    print(partialResponse, terminator: "")
-                }
-                
-                // Add a newline for clean formatting after the full response
+                // Add clear visual separation for the next user prompt
                 print("\n")
+                print("─" + String(repeating: "─", count: 60) + "─")
+                print()
             } catch {
                 print("\nAn error occurred: \(error.localizedDescription)")
+                print("─" + String(repeating: "─", count: 60) + "─")
+                print()
             }
         }
     }
@@ -111,3 +112,4 @@ public struct AICodeAssistant {
          }
      }
 }
+
